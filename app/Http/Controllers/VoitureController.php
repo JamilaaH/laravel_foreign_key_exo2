@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Couleur;
 use App\Models\Voiture;
 use Illuminate\Http\Request;
 
@@ -25,7 +26,8 @@ class VoitureController extends Controller
      */
     public function create()
     {
-        //
+        $couleurs = Couleur::all();
+        return view('backoffice.voiture.createVoiture', compact('couleurs'));
     }
 
     /**
@@ -36,8 +38,20 @@ class VoitureController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            "marque"=>["required"],
+            "annee"=>["required", "integer"],
+            "couleur_id"=>["required"],
+        ]);
+
+        $voiture = new Voiture();
+        $voiture->marque = $request->marque;
+        $voiture->annee = $request->annee;
+        $voiture->couleur_id = $request->couleur_id;
+        $voiture->save();
+        return redirect()->route('voiture.index');
     }
+
 
     /**
      * Display the specified resource.

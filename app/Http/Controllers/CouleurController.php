@@ -14,7 +14,8 @@ class CouleurController extends Controller
      */
     public function index()
     {
-        //
+        $couleurs = Couleur::all();
+        return view('backoffice.couleur.indexCouleur', compact('couleurs'));
     }
 
     /**
@@ -24,7 +25,7 @@ class CouleurController extends Controller
      */
     public function create()
     {
-        //
+        return view('backoffice.couleur.createCouleur');
     }
 
     /**
@@ -35,7 +36,14 @@ class CouleurController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            "couleur"=>"required",
+        ]);
+
+        $couleur = new Couleur();
+        $couleur->nom = $request->couleur;
+        $couleur->save();
+        return redirect()->route('couleur.index');
     }
 
     /**
@@ -80,6 +88,7 @@ class CouleurController extends Controller
      */
     public function destroy(Couleur $couleur)
     {
-        //
+        $couleur->delete();
+        return redirect()->back();
     }
 }

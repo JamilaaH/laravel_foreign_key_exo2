@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\CouleurController;
 use App\Http\Controllers\VoitureController;
+use App\Models\Couleur;
+use App\Models\Voiture;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +18,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('home');
+    $voitures = Voiture::all();
+    $couleurs = Couleur::all();
+    return view('home',compact('voitures','couleurs'));
 })->name('home');
 
 Route::get('/admin', function () {
@@ -24,3 +29,5 @@ Route::get('/admin', function () {
 
 
 Route::resource('/admin/voiture', VoitureController::class);
+
+Route::resource('/admin/couleur', CouleurController::class);
